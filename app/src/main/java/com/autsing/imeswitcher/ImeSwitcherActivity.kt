@@ -24,7 +24,7 @@ class ImeSwitcherActivity : ComponentActivity() {
             .exec()
 
         if (r3.isSuccess and r4.isSuccess) {
-            Toast.makeText(this, "Switched to: $defaultIme", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Switched to: $nextIme", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "Switch failed: ${r3.out.joinToString()}", Toast.LENGTH_SHORT)
                 .show()
