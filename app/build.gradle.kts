@@ -51,7 +51,7 @@ android {
     applicationVariants.all {
         outputs.map { it as com.android.build.gradle.internal.api.BaseVariantOutputImpl }
             .forEach {
-                it.outputFileName = "CodeDroid_v${versionName}_${buildType.name}.apk"
+                it.outputFileName = "ImeSwitcher_v${versionName}_${buildType.name}.apk"
             }
     }
 }
