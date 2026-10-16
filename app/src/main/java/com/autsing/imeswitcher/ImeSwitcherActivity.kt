@@ -1,12 +1,12 @@
 package com.autsing.imeswitcher
 
+import android.app.Activity
 import android.os.Bundle
 import android.provider.Settings
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import com.topjohnwu.superuser.Shell
 
-class ImeSwitcherActivity : ComponentActivity() {
+class ImeSwitcherActivity : Activity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
