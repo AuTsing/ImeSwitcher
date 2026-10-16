@@ -12,8 +12,8 @@ android {
         applicationId = "com.autsing.imeswitcher"
         minSdk = 29
         targetSdk = 36
-        versionCode = 12000
-        versionName = "1.2.0"
+        versionCode = 10201
+        versionName = "1.2.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
