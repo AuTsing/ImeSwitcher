@@ -10,24 +10,27 @@ class ImeSwitcherActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val r1 = Shell.cmd("settings get secure ${Settings.Secure.ENABLED_INPUT_METHODS}")
-            .exec()
-        val imes = r1.out.joinToString().split(":")
-        val r2 = Shell.cmd("settings get secure ${Settings.Secure.DEFAULT_INPUT_METHOD}")
-            .exec()
-        val defaultIme = r2.out.joinToString()
-        val nextImeI = imes.indexOf(defaultIme) + 1
-        val nextIme = imes.getOrElse(nextImeI) { imes[0] }
-        val r3 = Shell.cmd("settings put secure ${Settings.Secure.DEFAULT_INPUT_METHOD} $nextIme")
-            .exec()
-        val r4 = Shell.cmd("service call statusbar 2")
-            .exec()
+        val listImes = "ime list -s"
+        val imes = Shell.cmd(listImes).exec().out
+        val getCurrentIme = "settings get secure ${Settings.Secure.DEFAULT_INPUT_METHOD}"
+        val currentIme = Shell.cmd(getCurrentIme).exec().out.first()
+        val nextIme = imes.getOrNull(imes.indexOf(currentIme) + 1) ?: imes.first()
+        val setIme = "ime set $nextIme"
+        val success = Shell.cmd(setIme).exec().isSuccess
 
-        if (r3.isSuccess and r4.isSuccess) {
+        if (success) {
             Toast.makeText(this, "Switched to: $nextIme", Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this, "Switch failed: ${r3.out.joinToString()}", Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(this, "Switch failed", Toast.LENGTH_SHORT).show()
+        }
+
+        val hideQs = "service call statusbar 2"
+        Shell.cmd(hideQs).exec()
+
+        val restImes = imes.filter { it != nextIme }
+        for (ime in restImes) {
+            val packageName = ime.substringBefore("/")
+            Shell.cmd("am force-stop $packageName").exec()
         }
 
         finish()

@@ -8,5 +8,7 @@ class ImeSwitcherTileService : TileService() {
         val intent = Intent(this, ImeSwitcherActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)
+
+        stopSelf()
     }
 }
